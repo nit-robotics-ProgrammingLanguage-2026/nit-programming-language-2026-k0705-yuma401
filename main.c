@@ -1,33 +1,46 @@
+
 #include <stdio.h>
-#include <stdlib.h>
 
-int g_m = 9966990;
-int g_x = 0;
-int g_ans = 0;
+// ユークリッドの互除法で最大公約数を求める
+int gcd(int m, int x) {
+    // 負の数にも対応するため、long longで扱う
+    long long first_number = m;
+    long long second_number = x;
 
-void calc_gcd(void)
-{
-    int r;
-    int a = g_m;
-    int b = g_x;
-    for (; b != 0;)
-    {
-        r = a % b;
-        a = b;
-        b = r;
+    if (first_number < 0) {
+        first_number = -first_number;
     }
-    g_ans = abs(a);
+
+    if (second_number < 0) {
+        second_number = -second_number;
+    }
+
+    // 余りが0になるまで計算を繰り返す
+    while (second_number != 0) {
+        long long remainder = first_number % second_number;
+        first_number = second_number;
+        second_number = remainder;
+    }
+
+    return (int)first_number;
 }
 
-int main(void)
-{
-    scanf("%d", &g_x);
-    if (g_x > g_m)
-    {
+int main(void) {
+    int input_number;
+    int result;
+
+    scanf("%d", &input_number);
+
+    // 9966990より大きい場合はNG
+    if (input_number > 9966990) {
         printf("NG");
         return 0;
     }
-    calc_gcd();
-    printf("%d", g_ans);
+
+    // 関数に値を渡して最大公約数を受け取る
+    result = gcd(9966990, input_number);
+
+    printf("%d", result);
+
     return 0;
 }
